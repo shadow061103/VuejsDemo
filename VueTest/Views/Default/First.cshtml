@@ -1,0 +1,114 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>First</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            new Vue({
+                el: "#main",
+                data: {
+                    firstName: "KuanFu",
+                    lastName: "Lin"
+                },
+                computed: {
+                    fullName: function () {
+                        return this.firstName + " " + this.lastName;
+                    }
+                }
+            });
+            new Vue({
+                el: "#app",
+                data: {
+                    message:"Hello World!"
+                }
+
+            });
+            new Vue({
+                el: "#app-2",
+                data: {
+                    message:"頁面加載於"+new Date().toLocaleDateString()
+                }
+            });
+            new Vue({
+                el: "#app-3",
+                data: {
+                    seen: true
+                }
+            });
+            new Vue({
+                el: "#app-4",
+                data: {
+                    todos: [
+       { text: '學習JavaScript' },
+       { text: '學習Vue' },
+       { text: '整個項目' }
+                    ]
+                }
+            });
+            new Vue({
+                el: '#app-5',
+                data: {
+                    message: 'Hello Vue.js!'
+                },
+                methods: {
+                    reverseMessage: function () { this.message = this.message.split('').reverse().join('') }
+                }
+            });
+            new Vue({
+                el: '#app-6',
+                data: {
+                    message: 'Hello Vue!'
+                }
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+    
+    <div id="main">
+        <input type="text" v-model="firstName" />
+        <input type="text" v-model="lastName" />
+        <br />
+        <span>{{ fullName }}</span>
+
+
+
+    </div>
+    <div id="app">
+        <p>{{ message }}</p>
+        
+    </div>
+    <div id="app-2"><span v-bind:title="message">查看此處動態綁定的提示信息</span> </div>
+    <div id="app-3"><p v-if="seen">You can't see me</p></div>
+    <div id="app-4">
+        <ol>
+            <li v-for="(todo) in todos">
+                {{todo.text}}
+            </li>
+
+        </ol>
+
+    </div>
+    <div  id ="app-5"> <p> {{ message }} </p> <button v-on:click = "reverseMessage">逆轉消息</button > </div >
+    <div  id = "app-6"> <p> {{ message }} </p > <input v-model = "message" > </div >
+
+
+
+
+
+
+
+</body>
+</html>
