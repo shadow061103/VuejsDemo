@@ -1,0 +1,118 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>For</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            new Vue({
+                el: '#ex1',
+                data: {
+                    parentMessage: 'Parent',
+                    items: [{ message: 'kuan' }, { message: 'kobe' }, { message: 'abby' }]
+                },
+                methods: {//可以用push.pop.shift.unshift.splice.sort.reverse
+                    Add: function () {
+                        this.items.push({ message :'BAZ'})
+
+                    },
+                    Replace: function () {
+                        this.items = this.items.filter(function (item) {
+
+                            return  item.message.toUpperCase();
+                        })
+                    }
+                }
+            });
+            new Vue({
+                el: '#ex2',
+                data: {
+                    object: {
+                        firstName: 'KuanFu',
+                        lastName: 'Lin',
+                        age:25
+                    }
+                }
+                
+            });
+          var vm=  new Vue({
+                el: '#ex3',
+                data: {
+                    items: ['a', 'b', 'c']
+                },
+                methods: {
+                    add: function () {
+                        //vm.items[3] = 'd';//不是響應式的
+                        // vm.items.length = 5;
+                        Vue.set(vm.items, 3, 'd');//Vue.set(object, key, value)
+                        vm.items.splice(4, 1, 'e');
+                        vm.items.splice(5)
+                    }
+
+                }
+          });
+          new Vue({
+              el: '#ex4',
+              data: {
+                  numbers:[1,2,3,4,5,6]
+              },
+              computed: {
+                  evenNumbers: function () {
+                      return this.numbers.filter(function (number) {
+                          return number % 2 ===0
+                      })
+                  }
+              }
+          });
+          
+        });
+    </script>
+</head>
+<body>
+    <div id="ex1">
+         <ul>
+             @*of可以代替in*@
+             <li v-for="item in items">{{item.message}}</li>
+         </ul>
+        <ul >
+            <li v-for="(item, index) in items">
+                {{ parentMessage }} - {{ index }} - {{ item.message }}
+            </li>
+        </ul>
+        <button v-on:click="Add">Add</button>
+        <button v-on:click="Replace">Replace</button>
+    </div>
+    <div id="ex2">
+        @*可以把key直接拿掉變一個參數 index索引*@
+        <ul id="v-for-object" class="demo"> 
+            <li v-for="(value,key,index) in object" >
+             {{index}}---  {{key}} --- {{ value }}
+            </li>
+
+        </ul>
+       
+
+    </div>
+   
+    <div id="ex3">
+        <div v-for="value in items">
+          {{ value }}
+        </div>
+        <button v-on:click="add">add item</button>
+    </div>
+    <div id="ex4">
+        <ul>
+            <li v-for="n in evenNumbers">{{n}}</li>
+        </ul>
+
+    </div>
+</body>
+</html>

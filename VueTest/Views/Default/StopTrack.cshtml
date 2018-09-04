@@ -1,0 +1,38 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StopTrack</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    
+</head>
+<body>
+    <div id="app"> 
+        <p>{{foo}}</p>
+        <button v-on:click="foo='baz'">改變值</button>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var obj = { foo: 'bar' };
+            Object.freeze(obj);//阻止修改現有屬性
+            var vm= new Vue({
+                el: '#app',
+                data: obj,
+                created: function () {console.log('foo is '+this.foo) } //vue實例被創建之後執行
+
+            });
+           
+            console.log(vm.$obj == obj); //前綴字$  fasle
+            console.log(vm.$el === document.getElementById('app'));//true
+        });
+        
+    </script>
+</body>
+</html>

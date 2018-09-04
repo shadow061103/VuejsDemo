@@ -1,0 +1,64 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Condition</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            new Vue({
+                el: '#ex1',
+                data: {
+                    loginType: "username",
+                    ok:true
+                },
+                methods: {
+                    toggle: function () {
+                        if (this.loginType == "username")
+                            this.loginType = "Email";
+                        else
+                            this.loginType = "username";
+                        
+                    }
+
+                }
+
+            });
+        });
+
+    </script>
+</head>
+<body>
+   
+    
+
+    <div id="ex1">
+        <template v-if="loginType === 'username'">
+            <label>Username</label>
+            <input placeholder="Enter your username" key="username-input">
+        </template>
+        <template v-else>
+            <label>Email</label>
+            <input placeholder="Enter your email address" key="email-input">
+        </template>
+        <button v-on:click="toggle">Toggle login type</button>
+
+        <div v-if="Math.random() > 0.5">
+            Now you see me
+        </div>
+        <div v-else>
+            Now you don't
+        </div>
+        @*切換元素的display屬性*@
+        <h1 v-show="ok">Hello!</h1>
+    </div>
+    
+</body>
+</html>

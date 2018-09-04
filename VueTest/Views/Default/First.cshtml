@@ -70,6 +70,21 @@
                     message: 'Hello Vue!'
                 }
             });
+             Vue.component('todo-item',{
+                props: ['todo'],//子單元透過prop與父單元解耦
+                template: '<li>{{ todo.text }}</li>'
+
+            });
+            new Vue({
+                el: '#app-7',
+                data: {
+                    groceryList: [
+                        { id: 0, text: '蔬菜' },
+                        { id: 1, text: '水果' },
+                        { id: 2, text: '甜點' },
+                    ]
+                }
+            });
         });
 
 
@@ -102,9 +117,24 @@
 
     </div>
     <div  id ="app-5"> <p> {{ message }} </p> <button v-on:click = "reverseMessage">逆轉消息</button > </div >
-    <div  id = "app-6"> <p> {{ message }} </p > <input v-model = "message" > </div >
+    <div  id = "app-6"> 
+    <p> {{ message }} </p >
+        <p v-once>這個不會被改變 {{ message }} </p>
+     <input v-model = "message" >
+     </div >
+
+    <div id="app-7">
+        <ol>
+            @*todo-item模板*@
+            <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id">
 
 
+            </todo-item>
+
+        </ol>
+
+    </div>
+   
 
 
 

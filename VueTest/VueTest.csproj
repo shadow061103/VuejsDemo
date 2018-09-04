@@ -153,6 +153,14 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Default\StopTrack.cshtml" />
+    <Content Include="Views\Default\TemplateSyntax.cshtml" />
+    <Content Include="Views\Default\ComputedProperty.cshtml" />
+    <Content Include="Views\Default\Watch.cshtml" />
+    <Content Include="Views\Default\StyleandCss.cshtml" />
+    <Content Include="Views\Default\Condition.cshtml" />
+    <Content Include="Views\Default\For.cshtml" />
+    <Content Include="Views\Default\待辦事項.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

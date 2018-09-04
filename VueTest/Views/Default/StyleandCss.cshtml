@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>StyleandCss</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            new Vue({
+                el: '#ex1',
+                data: {
+                    isActive: true,
+                    hasError: true,
+                    classObject: {
+                        isActive2:true,
+                        hasError2:false
+                    }
+                },
+                computed: {
+                    classObjectComputed: function () {
+                        return { active: this.isActive && !this.error, 'text-danger': this.error && this.error.type === 'fatal' }
+                    }
+                }
+
+            });
+            new Vue({
+                el: '#ex2',
+                data: {
+                    activeClass: 'active',
+                    errorClass:'text-danger'
+                }
+            });
+            new Vue({
+                el: '#ex3',
+                data: {
+                    activeColor: 'red',
+                    fontsize: 30
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div id="ex1"> 
+        <span class="static" v-bind:class="{active:isActive,'text-danger':hasError}">測試css屬性變化</span>
+        <br/>
+        @*不一定要inline*@
+        <span class="static2" v-bind:class="classObject">測試css屬性變化not inline</span><br />
+        @*寫在計算屬性*@
+        <span class="static3" v-bind:class="classObjectComputed">測試css屬性變化not computed</span>
+       
+
+    </div>
+    <div id="ex2">
+        @*Array syntax*@
+        <span class="static" v-bind:class="[activeClass, errorClass]">測試css屬性變化Array</span>
+    </div>
+
+    <div id="ex3">
+        <span v-bind:style="{color:activeColor,fontSize:fontsize+'px'}">test style</span>
+        <span v-bind:style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">test style2</span>
+    </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ComputedProperty</title>
+    <script src="~/Scripts/vue.js"></script>
+    
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var vm = new Vue({
+                el: '#ex1',
+                data: {
+                    message: 'Hello',
+
+                },
+                computed: {
+                    reversedmessage: function () {
+                        //值始終取決於message的值 會cache住 但測試後是會一起改變
+                        
+                        return this.message.split('').reverse().join('') + Date.now().toString()
+                    }
+                },
+                methods:{ //method不會cache 
+                    reversedmessage2: function () {
+                        return this.message.split('').reverse().join('')+Date.now().toString()
+                    }
+            }
+                
+            });
+            console.log(vm.reversedmessage);
+            vm.message = "goodbye";
+            console.log(vm.reversedmessage);
+
+            //計算屬性getter&setter
+            new Vue({
+                el: '#ex2',
+                data: {
+                    firstName: "Abby",
+                    lastName:"Wu"
+                },
+                computed: {
+                    fullName: {
+                        get: function () {
+                            return this.firstName + " " + this.lastName
+                        },
+                        set: function (newvalue) {
+                            var name = newvalue.split(' ');
+                            this.firstName = name[0];
+                            this.lastName = name[name.length-1]
+                           
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="ex1"> 
+        <p>original message:{{message}}</p>
+        <p>computed reversed message {{reversedmessage}}</p>
+        <p>computed reversed message by method {{reversedmessage2()}}</p>
+        <input type="text" v-model="message" />
+    </div>
+    <div id="ex2">
+        <input type="text" v-model="firstName" />
+        <input type="text" v-model="lastName" />
+        <br />
+        <input type="text" v-model="fullName" />
+        
+
+    </div>
+</body>
+</html>

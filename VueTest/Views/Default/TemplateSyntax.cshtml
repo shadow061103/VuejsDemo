@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TemplateSyntax</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(document).ready(function () {
+            new Vue({
+                el: '#aa',
+                data: {
+                    rawHtml: "<span style=\"color:red;\">測試原始htm，注意不可使用用戶提供的html以防XSS攻擊</span>",
+                    isbuttondisabled: true,
+                    uri:"http://www.yahoo.com.tw"
+                }
+            });
+
+        });
+
+    </script>
+</head>
+<body>
+    <div id="aa"> 
+        <p> Using mustaches: {{ rawHtml }}</p>
+        <p>
+            Using v-html directive:<span v-html="rawHtml"></span>
+        </p>
+        <button v-bind:disabled="isbuttondisabled">Button</button>
+        <a v-bind:href="uri" target="_blank">YAHOO</a>
+    </div>
+</body>
+</html>
