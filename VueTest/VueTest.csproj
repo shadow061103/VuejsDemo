@@ -166,6 +166,10 @@
     <Content Include="Views\Default\Component.cshtml" />
     <Content Include="Views\Default\ComponentMore.cshtml" />
     <Content Include="Views\Default\LocalComponent.cshtml" />
+    <Content Include="Views\Default\Prop.cshtml" />
+    <Content Include="Views\Default\ComponentEnent.cshtml" />
+    <Content Include="Views\Default\Slot.cshtml" />
+    <Content Include="Views\Default\Todo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

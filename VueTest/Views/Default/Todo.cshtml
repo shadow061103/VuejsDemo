@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Todo</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            var app=  new Vue({
+                el: '#app',
+                data: {
+                    todos: [],
+                    newTodo:''
+
+                },//this就是function執行當下外層物件
+                methods:{
+                    addTodo: function (todo) { this.todos.push({ content: todo, conpleted: false }) },
+                    removeTodo: function (todo) { this.todos.splice(this.todos.indexOf(todo),1)}
+            }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="app"> 
+        <input type="text" placeholder="請輸入代辦事項" @@keyup.enter="addTodo(newTodo)" v-model="newTodo"/>
+        <h2>事項列表</h2>
+        <ul>
+            <li v-for="todo in todos">
+                {{todo.content}}-<a href="#" @@click.prevent="removeTodo(todo)">刪除</a>
+            </li>
+        </ul>
+        <pre>
+{{this.todos}}
+</pre>
+    </div>
+</body>
+</html>

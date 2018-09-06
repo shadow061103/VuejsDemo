@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ComponentEnent</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            Vue.component('button-counter', {
+                template: '<button v-on:click="increment">{{ door }}來客+1 ( {{ counter }} )</button>',
+                props: ['door'],//外部傳進來
+                data: function () {
+                    return {counter:0};
+                },
+                methods: {
+                    increment: function () {
+                        this.counter += 1;
+                        this.$emit('increment')
+                    }
+
+                }
+
+            });
+            new Vue({
+                el: '#counter',
+                data: {
+                    total:0
+                },
+                methods: {
+                    incrementTotal: function () {
+                        this.total += 1
+                    }
+                }
+
+            });
+        });
+
+    </script>
+</head>
+<body>
+    <div id="counter"> 
+        <p>總來客量: {{ total }}</p>
+        <button-counter door="前門" v-on:increment="incrementTotal"></button-counter>
+        <button-counter door="後門" v-on:increment="incrementTotal"></button-counter>
+        <!-- 來客數不計算工作人員 -->
+        <button-counter door="工作人員專用門"></button-counter>
+
+</div>
+</body>
+</html>

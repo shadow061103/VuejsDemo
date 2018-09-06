@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Prop</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function(){
+            Vue.component('child', {
+                props: ['type', 'mymessage'],
+                template: '<span :class="type">{{mymessage}}</span>'
+
+            });
+            var vm = new Vue({
+                el: '#aaa',
+                data: {
+                    classType: "primary2",
+                    msg: "阿囉哈"
+                }
+            });
+        });
+      
+       
+    </script>
+</head>
+<body>
+    <div id="aaa"> 
+        <!-- 靜態綁法 -->
+        <!-- 傳入字串 'primary' 、 'hello!' -->
+        <child type="primary" myMessage="hello!"></child>
+        <!-- 動態綁法 -->
+        <child v-bind:type="classType" v-bind:myMessage="msg"></child>
+        
+       
+    </div>
+</body>
+</html>

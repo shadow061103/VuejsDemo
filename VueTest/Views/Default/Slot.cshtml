@@ -1,0 +1,70 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Slot</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+
+
+           
+
+           var app= new Vue({
+                el: '.app',
+                data: {
+                    message: 'hello',
+                    colors: ['black', 'red', 'blue'],
+                    homes: [{
+                        father:'BOB'
+                    }, {
+                        father: 'John'
+
+                    }]
+                },
+                methods: {
+                    ccc: function () {
+                        alert('1234');
+                    },
+                    myFa: function (father) {
+                        alert('我爸是'+father);
+                    }
+                }
+           });
+
+           check();
+
+           var data = {
+               checkNum: function () {
+
+                   console.log(this);
+               }
+           }
+           data.checkNum();
+        });
+        //this就是function執行當下外層物件
+        function check() {
+            console.log(this);
+        }
+
+    </script>
+   
+</head>
+<body>
+    <div class="app">
+       {{message}}
+        <h1 id="title" v-on:click="ccc">123456</h1>
+        <ul>
+            <li v-for="item in colors">{{item}}</li>
+            <li v-for="item in homes" v-on:click="myFa(item.father)">{{item.father}} </li>
+        </ul>
+    </div>
+</body>
+</html>

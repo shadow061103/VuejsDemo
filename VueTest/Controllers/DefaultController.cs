@@ -73,5 +73,23 @@ namespace VueTest.Controllers
         {//用extend把組件定義拆出來 然後再寫到local
             return View();
         }
+        public ActionResult Prop()
+        {
+            return View();
+        }
+        public ActionResult ComponentEnent()
+        {
+            //監聽事件$on
+            //對外$emit 只對父層 事件觸發必定來自子組件
+            return View();
+        }
+        public ActionResult Slot()
+        {
+            return View();
+        }
+        public ActionResult Todo()
+        {//簡單待辦事項
+            return View();
+        }
     }
 }
