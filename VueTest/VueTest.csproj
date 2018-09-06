@@ -161,6 +161,11 @@
     <Content Include="Views\Default\Condition.cshtml" />
     <Content Include="Views\Default\For.cshtml" />
     <Content Include="Views\Default\待辦事項.cshtml" />
+    <Content Include="Views\Default\Event.cshtml" />
+    <Content Include="Views\Default\Form.cshtml" />
+    <Content Include="Views\Default\Component.cshtml" />
+    <Content Include="Views\Default\ComponentMore.cshtml" />
+    <Content Include="Views\Default\LocalComponent.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,88 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Component</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            Vue.component('button-counter', { //global註冊
+                data: function () {//一定要是function 每個實體才會獨立
+                    return { count: 0 }
+                },
+                template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+            });
+            Vue.component('blog-post', {
+                props: ['post'],
+                template: '<div class="blog-post"><h3>{{post.title}}</h3>\
+                          <button v-on:click="$emit(\'enlarge-text\')">Enlarge text</button>\
+                          <div v-html="post.content"></div></div>'
+            });
+            Vue.component('alert-box', {
+                template:"<div class=\"alert-box\">\
+                       <strong>Error!</strong>\
+                       <slot></slot></div>"
+            });
+            Vue.component('table-tr', {
+                template:"<tr><td>HAHAHA</td></tr>"
+            })
+            new Vue({
+                el: '#components-demo',
+                data: {
+                    posts: [
+                      { id: 1, title: 'My journey with Vue',content:"AAAA" },
+                      { id: 2, title: 'Blogging with Vue', content: "BBBB" },
+                      { id: 3, title: 'Why Vue is so fun', content: "CCCC" }
+                    ],
+                    postFontSize:1
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div id="components-demo" > 
+        @*組件可以無限次複用*@
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        
+        @*直接寫post 如果有加什麼屬性就不用再多寫東西v-bind:title="post.title"
+        v-bind:content="post.content"
+        v-bind:publishedAt="post.publishedAt"
+        v-bind:comments="post.comments"*@
+        <!--傳入一個物件的所有屬性-->
+        <div :style="{fontSize:postFontSize+'em'}">
+            <blog-post v-for="post in posts"
+                       v-bind:key="post.id"
+                       v-bind:post="post" 
+                       v-on:enlarge-text="postFontSize+=0.1"></blog-post>  <!--enlarge-text監聽button事件-->
+        </div>
+
+        
+
+
+
+
+        <alert-box></alert-box>
+
+
+
+        <table>
+            <table-tr></table-tr> <!--寫這樣照理是不允許的 可以用is-->
+            <tr is="table-tr"></tr>
+            <tr is="table-tr"></tr>
+            <tr is="table-tr"></tr>
+        </table>
+    </div>
+
+</body>
+</html>

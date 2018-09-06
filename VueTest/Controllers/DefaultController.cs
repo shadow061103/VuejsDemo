@@ -8,6 +8,10 @@ namespace VueTest.Controllers
 {
     public class DefaultController : Controller
     {
+        //1.data 更新、UI隨之更新；
+        //2.反過來，使用者輸入更改UI上的數值， data 得跟著更新。
+        //    v-bind 做 單向綁定，可以達成 1
+        //    v-model 做 雙向綁定，可以達成 1 & 2
         // GET: Default
         public ActionResult First()
         {//基本用法
@@ -47,6 +51,26 @@ namespace VueTest.Controllers
         }
         public ActionResult 待辦事項()
         {
+            return View();
+        }
+        public ActionResult Event()
+        {//事件修飾詞 .stop .prevent .capture .self .once .passive
+            return View();
+        }
+        public ActionResult Form()
+        { //表單常用
+            return View();
+        }
+        public ActionResult Component()
+        {
+            return View();
+        }
+        public ActionResult ComponentMore()
+        {
+            return View();
+        }
+        public ActionResult LocalComponent()
+        {//用extend把組件定義拆出來 然後再寫到local
             return View();
         }
     }

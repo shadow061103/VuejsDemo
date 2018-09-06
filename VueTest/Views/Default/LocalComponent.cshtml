@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>LocalComponent</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            var menuItem = Vue.extend({
+                template: '<ul><li v-for="item in menuItems">{{ item.text }}</li></ul>',
+                data: function () {
+                    return {
+                        menuItems: [
+                            { text: 'About me' },
+                            { text: 'Articles' },
+                            { text: 'Contact us' }
+
+                        ]
+
+
+                    }
+                }
+                
+
+            });
+            new Vue({
+                el: '#ex1',
+                components: {
+                    'my-menu': menuItem
+                }
+
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div id="ex1"> 
+        <my-menu></my-menu>
+       
+    </div>
+</body>
+</html>

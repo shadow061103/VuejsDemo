@@ -1,0 +1,126 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Form</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            new Vue({
+                el: '#ex1',
+                data: {
+                    message:"gogogo"
+                }
+            });
+            new Vue({
+                el: '#ex2',
+                data: {
+                    checkedNames: [],
+                    picked:""
+                }
+            });
+            new Vue({
+                el: '#ex3',
+                data: {
+                    selected:[]
+                }
+            });
+            var vm = new Vue({
+                el: '#ex4',
+                data: {
+                    selected: 'A',
+                    options: [
+                      { text: 'One', value: 'A' },
+                      { text: 'Two', value: 'B' },
+                      { text: 'Three', value: 'C' }
+                    ],
+                    pick: "",
+                    a:""
+                }
+            });
+            console.log(vm.pick === vm.a);
+            var vm2 = new Vue({
+                el: '#ex5',
+                data: {
+                    selected: {
+                        number:0
+                    },
+                    msg: "",
+                    age:""
+                }
+            });
+            console.log(typeof vm2.selected);
+            console.log(vm2.selected.number);
+            
+        });
+    </script>
+</head>
+<body>
+    <div id="ex1">
+         <span>multi message is</span>
+        <p style="white-space:pre-line">{{message}}</p>
+        <br/>
+        <textarea v-model="message" placeholder="add multiple lines"></textarea>
+    </div>
+    <div id="ex2">
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br/>
+        <span>Checked names: {{ checkedNames }}</span>
+
+        <br />
+        <input type="radio" id="one" value="One" v-model="picked">
+        <label for="one">One</label>
+        <br>
+        <input type="radio" id="two" value="Two" v-model="picked">
+        <label for="two">Two</label>
+        <br>
+        <span>Picked: {{ picked }}</span>
+    </div>
+    <div id="ex3">
+        @*如果v-model表達式的初始值未能匹配任何選項，<select>
+            元素將被渲染為“未選中”狀態。在iOS中，這會使用戶無法選擇第一個選項。因為這樣的情況下，iOS不會觸發change事件。因此，更推薦像上面這樣提供一個值為空的禁用選項。*@
+
+            <select multiple v-model="selected" style="width:50px">
+                <option disabled value="">please select one</option>
+                <option>A</option>
+                <option>B</option>
+                <option>C</option> 
+
+            </select>
+            <span>Selected:{{selected}}</span>
+</div>
+    <div id="ex4">
+        <select v-model="selected">
+            <option v-for="option in options" v-bind:value="option.value">
+                {{ option.text }}
+            </option>
+        </select>
+        <span>Selected: {{ selected }}</span>
+        <br/>
+        <input type="radio" v-model="pick" v-bind:value="a" />
+    </div>
+    <div id="ex5">
+        <select v-model="selected">
+            <!-- inline object literal -->
+            <option v-bind:value="{ number: 123 }">123</option>
+        </select>
+
+        <!--在“change”時而非“input”時更新-->
+        <input  v-model.lazy = "msg" >
+        <!--想自動將用戶的輸入值轉為數值類型-->
+        <input  v-model.number = "age"  type = "number" >
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Event</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            new Vue({
+                el: '#ex1',
+                data: {
+                    counter:0
+                },
+                methods: {
+                    greet: function () {
+                        alert('Hello!kuan');
+                    }
+                }
+            });
+            new Vue({
+                el: '#ex2',
+                methods: {
+                    say: function (message)
+                    {
+                        alert(message);
+                    },
+                    warn: function (message, event) {
+                        // now we have access to the native event
+                        if (event) event.preventDefault()
+                        alert(message)
+                    }
+                }
+            });
+            new Vue({
+                el: '#ex4',
+                methods: {
+                   submit: function() {
+                       alert('submit success');
+                   },
+                   doSomething: function () {
+                       alert('doSomething');
+                   }
+                }
+            });
+
+
+        });
+    </script>
+</head>
+<body>
+    <div id="ex1"> 
+        <button v-on:click="counter += 1">Add by 1</button>
+        <p>The button above has been clicked {{ counter }} times.</p>
+        <button v-on:click="greet">Greet</button>
+    </div>
+    <div id="ex2">
+        <button v-on:click="say('hi')">Say hi</button>
+        <button v-on:click="say('what')">Say what</button>
+        <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+            Submit
+        </button>
+    </div>
+    <div id="ex3">
+        @*事件修飾字*@
+        <a v-on:click.stop="doThis">
+        </a>
+        <form v-on:submit.prevent="onSubmit"></form>
+        <a v-on:click.stop.prevent="doThat"></a>
+        <a v-on:click.self="doThat"></a>
+
+    </div>
+    <div id="ex4">
+        @*按鍵事件.enter .tab
+        .delete (captures both “Delete” and “Backspace” keys)
+        .esc
+        .space
+        .up
+        .down
+        .left
+        .right
+        .ctrl
+        .alt
+            .shift
+            .meta微軟的田鍵
+         Vue.config.keyCodes.f1=13 也可以自訂
+            *@
+        <input v-on:keyup.enter="submit" value="enter and submit"/>
+        <div @@click.ctrl.exact="doSomething">Do something</div>
+
+        @*滑鼠按鈕.left .right .middle*@
+    </div>
+</body>
+</html>
