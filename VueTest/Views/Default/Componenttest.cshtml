@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Componenttest</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            Vue.component('my-component', {
+                props: ['parentMsg'],
+                template: '#my-component',
+                data: function () {
+                    return {msg:"Msg of child"}
+                }
+            })
+            new Vue({
+                el: '#app',
+                data: {
+                    msg:'Msg of parent'
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="app"> 
+        <my-component v-bind:parent-msg="msg"></my-component>
+
+    </div>
+    <script id="my-component" type="text/x-template">
+        <div class="component">
+            <div>ParentMsg :{{parentMsg}}</div>
+            <div>ChildMsg:{{msg}}</div>
+            </div>
+    </script>
+</body>
+</html>

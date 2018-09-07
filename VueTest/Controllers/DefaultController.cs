@@ -91,5 +91,22 @@ namespace VueTest.Controllers
         {//簡單待辦事項
             return View();
         }
+        public ActionResult GithubApiCommit()
+        {//api路由可參考https://developer.github.com/v3/repos/commits/
+            return View();
+        }
+        public ActionResult GithubApiRepo()
+        {//抓所有repository
+            return View();
+        }
+        public ActionResult Componenttest()
+        {
+            return View();
+        }
+        public ActionResult ModelwithProps()
+        {//雙向綁定
+            //$emit註冊 $on發動事件
+            return View();
+        }
     }
 }

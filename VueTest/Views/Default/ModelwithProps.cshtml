@@ -1,0 +1,59 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ModelwithProps</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            Vue.component('my-component', {
+                template: '<span>{{parentMessage}}<input type="text" v-model="message" />\
+ <button @@click="updateText">Update</button></span>',
+                props: {
+                    parentMessage:String
+                },
+                data() {
+                    return { message: this.parentMessage }
+                },
+                methods: {
+                    updateText: function () {
+                        this.$parent.$emit('update', this.message);
+                    }
+                }
+            });
+            new Vue({
+                el: '#app',
+                data: {
+                    message:'hello'
+                },
+                methods: {
+                    selfUpdate: function (val)
+                    {
+                        this.message = val;
+                    }
+                },
+                mounted() {
+                    this.$on('update', this.selfUpdate);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="app">
+        @*parent會影響child child不影響parent  one way binding*@
+        <p>Parent:{{message}}<input type="text" v-model="message" /></p> 
+        <p>
+            Child:
+            <my-component :parent-message="message"></my-component>
+        </p>
+    </div>
+</body>
+</html>

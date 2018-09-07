@@ -170,6 +170,10 @@
     <Content Include="Views\Default\ComponentEnent.cshtml" />
     <Content Include="Views\Default\Slot.cshtml" />
     <Content Include="Views\Default\Todo.cshtml" />
+    <Content Include="Views\Default\GithubApiCommit.cshtml" />
+    <Content Include="Views\Default\GithubApiRepo.cshtml" />
+    <Content Include="Views\Default\Componenttest.cshtml" />
+    <Content Include="Views\Default\ModelwithProps.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

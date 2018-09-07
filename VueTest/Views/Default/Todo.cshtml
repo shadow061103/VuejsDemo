@@ -21,8 +21,8 @@
 
                 },//this就是function執行當下外層物件
                 methods:{
-                    addTodo: function (todo) { this.todos.push({ content: todo, conpleted: false }) },
-                    removeTodo: function (todo) { this.todos.splice(this.todos.indexOf(todo),1)}
+                    addTodo: function (todo) { this.todos.push({ content: todo, completed: false }) },
+                    removeTodo: function (todo) { this.todos.splice(this.todos.indexOf(todo),1)}//找到要刪的刪掉一個
             }
             });
         });

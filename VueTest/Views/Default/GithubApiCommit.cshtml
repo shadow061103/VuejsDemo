@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GithubApiCommit</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            //github的api url一定要https://api.github.com開頭 後面看規定
+            var apiURL = 'https://api.github.com/repos/vuejs/vue/commits?per_page=3&sha=';
+            var demo = new Vue({
+                el: '#demo',
+                data: {
+                    branches: ['master', 'dev'],
+                    currentBranch: 'master',
+                    commits: null
+                },
+
+                created: function () {
+                    this.fetchData()
+                },
+
+                watch: {
+                    currentBranch: function () {
+                        this.fetchData(); //可以縮寫為'fetchData'
+
+                    }
+                },
+                methods: {
+                    fetchData: function () {
+                        var xhr = new XMLHttpRequest()
+                        var self = this
+                        xhr.open('GET', apiURL + self.currentBranch)
+                        xhr.onload = function () {
+                            self.commits = JSON.parse(xhr.responseText)
+                            console.log(self.commits[0].html_url)
+                        }
+                        xhr.send()
+                    }
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div id="demo"> 
+        <h1>Latest Vue.js Commits</h1>
+        <template v-for="branch in branches">
+            <input type="radio" :value="branch" v-model="currentBranch" />
+            {{branch}}
+
+        </template>
+        <p>vuejs/vue@@{{ currentBranch }}</p>
+        <ul>
+            <li v-for="record in commits">
+                <a :href="record.html_url" target="_blank" class="commit">更新紀錄</a>
+                -
+                by <span class="author"><a :href="record.author.html_url" target="_blank">{{ record.commit.author.name }}</a></span>
+                at <span class="date">{{ record.commit.author.date  }}</span>
+            </li>
+        </ul>
+    </div>
+</body>
+</html>

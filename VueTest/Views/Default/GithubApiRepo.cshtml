@@ -1,0 +1,74 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GithubApiRepo</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script>
+        $(function () {
+            var apiURL = 'https://api.github.com/users/shadow061103/repos?sort=';
+            new Vue({
+                el: '#demo',
+                data: {
+                    sorts: ['created', 'updated', 'pushed', 'full_name'],
+                    currentsort: 'full_name',
+                    repos:null
+
+                },
+                created:function () {
+                    this.fetchData()
+                },
+                watch: {
+                    currentsort: function () {
+                        this.fetchData();
+                    }
+                    
+                },
+                methods:  {
+                    fetchData: function(){
+                        var xhr = new XMLHttpRequest()
+                        var self = this
+                        xhr.open('GET', apiURL + self.currentsort)
+                        xhr.onload = function () {
+                            self.repos = JSON.parse(xhr.responseText)
+                            
+                        }
+                        xhr.send()
+                    }
+
+                }
+
+            });
+
+
+        });
+
+    </script>
+</head>
+<body>
+    <div id="demo">
+        <h1>我的專案列表</h1>
+         <template v-for="sort in sorts" >
+             <input type="radio" :value="sort" v-model="currentsort" />{{sort}}
+         </template>
+        <ul>
+            <li v-for="repo in repos">
+                <span>{{repo.name}}</span>
+                <a :href="repo.html_url">專案連結</a>
+                建立日期<span>{{repo.created_at}}</span>
+
+
+            </li>
+        </ul>
+
+
+    </div>
+</body>
+</html>
