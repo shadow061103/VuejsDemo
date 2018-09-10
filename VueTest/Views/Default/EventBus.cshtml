@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EventBus</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    
+   <script>
+       $(function () {
+           //event bus 有點像圖書館的概念 emit不用巡覽樹
+           var bus = new Vue();//承接事件
+           Vue.component('custom-elem1', {
+               template: '<div class="custom-elem1">\
+<input v-model="msg"><button @@click="submit">Submit</button></div>',
+               methods: {
+                   submit() {
+                       bus.$emit('receive',this.msg) //receive是自訂的
+                   }
+               },
+               data() {
+                   return {msg:'456'}
+               }
+               
+
+           });
+           Vue.component('custom-elem2', {
+               template: '<div class="custom-elem2">{{msg}}</div>',
+               created() {
+                   var that = this; //要寫在外面
+                   bus.$on('receive', function (newmsg) {
+                       
+                       that.msg = newmsg;
+                   });
+               },
+               data() {
+                   return { msg: '123' }
+               }
+
+
+           });
+           var demo = new Vue({
+               el:'#demo'
+           });
+       });
+   </script>
+</head>
+<body>
+    <div id="demo">
+        <custom-elem1></custom-elem1>
+        <hr>
+        <custom-elem2></custom-elem2>
+    </div>
+</body>
+</html>

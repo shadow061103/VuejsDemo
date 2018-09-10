@@ -14,8 +14,10 @@
     <script>
         $(function () {
             Vue.component('my-component', {
-                template: '<span>{{parentMessage}}<input type="text" v-model="message" />\
- <button @@click="updateText">Update</button></span>',
+                template: '<span>\
+{{parentMessage}}<input type="text" v-model="message" />\
+ <button @@click="updateText">Update</button>\
+</span>',
                 props: {
                     parentMessage:String
                 },
@@ -23,7 +25,7 @@
                     return { message: this.parentMessage }
                 },
                 methods: {
-                    updateText: function () {
+                    updateText: function () {//傳回父層 帶參數
                         this.$parent.$emit('update', this.message);
                     }
                 }

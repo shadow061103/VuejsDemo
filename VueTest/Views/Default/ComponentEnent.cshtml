@@ -21,8 +21,9 @@
                 },
                 methods: {
                     increment: function () {
+                        console.log('increment');
                         this.counter += 1;
-                        this.$emit('increment')
+                        this.$emit('increment') //加這段才會跑incrementTotal方法
                     }
 
                 }
@@ -35,6 +36,7 @@
                 },
                 methods: {
                     incrementTotal: function () {
+                        console.log('incrementTotal');
                         this.total += 1
                     }
                 }

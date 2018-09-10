@@ -108,5 +108,23 @@ namespace VueTest.Controllers
             //$emit註冊 $on發動事件
             return View();
         }
+        public ActionResult EventBus()
+        {//emit&on
+            return View();
+        }
+        public ActionResult IS()
+        {//動態元件替換+keep alive
+            return View();
+        }
+        public ActionResult Slot2()
+        {//子元件身上挖洞讓父親塞 多個Slot
+
+            return View();
+        }
+        public ActionResult Slot3()
+        {//只有一個Slot
+            return View();
+        }
+
     }
 }

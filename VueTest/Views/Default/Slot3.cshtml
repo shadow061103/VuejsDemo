@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Slot3</title>
+    <script src="~/Scripts/vue.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <style>
+        #app {
+            margin: 1em;
+            font-size: 1.5em;
+        }
+
+        .parent,
+        .child {
+            margin: .5em;
+            padding: .5em;
+            font-size: 1.5em;
+        }
+
+        .parent {
+            background-color: #f1f1f1;
+        }
+
+        .child {
+            background-color: #333;
+            color: #fff;
+        }
+    </style>
+    <script>
+        $(function () {
+            // children component
+            Vue.component('child', {
+                template: '#child-template',
+                data: function () {
+                    return {
+                        msg: 'I\'m child.'
+                    };
+                }
+            });
+
+            // parent component
+            var parent = new Vue({
+                el: '#app',
+                data: {
+                    msg: 'I\'m parent.'
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="app">
+        <div class="parent">{{ msg }}</div>
+
+        <child>
+            @*替換template的slot*@
+        </child>
+    </div>
+
+    <template id="child-template">
+        <div class="child">
+            <div>{{ msg }}</div>
+            <hr>
+            <slot> Default Slot Content </slot>
+        </div>
+    </template>
+</body>
+</html>
