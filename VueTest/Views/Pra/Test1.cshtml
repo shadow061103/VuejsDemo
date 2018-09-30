@@ -1,0 +1,56 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test1</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+
+</head>
+<body>
+    <div id="app" >
+        {{fullName}}
+        <input type="text" v-model="fisrstName" />
+        <input type="text" v-model="lastName" />
+        <div :class="{active:isActive}"></div>
+        <div :class="[activeCls,errorCls]"></div>
+        <div v-once>{{fullName}}</div>
+    </div>
+    <script>
+       
+        var app = new Vue({
+            el: '#app',
+            data: {
+                fisrstName: 'Abby',
+                lastName: 'Wu',
+                isActive: true,
+                activeCls: 'active',
+                errorCls:'error'
+            },
+            computed: {
+                fullName: {
+                    get: function () {
+                        return this.fisrstName + ' ' + this.lastName;
+                    },
+                    set: function (newValue) {
+                        var name = newValue.split(' ');
+                        this.fisrstName = name[0];
+                        this.lastName = name[name.length - 1];
+                    }
+                }
+            }
+            
+               
+               
+            
+        });
+        
+    </script>
+</body>
+</html>

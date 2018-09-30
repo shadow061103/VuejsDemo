@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\PraController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -178,6 +179,10 @@
     <Content Include="Views\Default\IS.cshtml" />
     <Content Include="Views\Default\Slot2.cshtml" />
     <Content Include="Views\Default\Slot3.cshtml" />
+    <Content Include="Views\Pra\Test1.cshtml" />
+    <Content Include="Views\Pra\Test2.cshtml" />
+    <Content Include="Views\Pra\Test3.cshtml" />
+    <Content Include="Views\Pra\購物車.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

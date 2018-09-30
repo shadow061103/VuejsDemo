@@ -1,0 +1,30 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test2</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <p v-if="status===1">status=1時顯示</p>
+        <p v-else-if="status===2">status=2時顯示</p>
+        <p v-else>否則顯示</p>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+              status:1
+            }
+        });
+    </script>
+</body>
+</html>

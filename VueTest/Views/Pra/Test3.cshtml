@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test3</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <template v-if="type==='name'">
+            <label>用戶名:</label>
+            <input type="text" placeholder="輸入用戶名" key="name-input"/>
+        </template>
+        <template v-else>
+            <label>Email:</label>
+            <input type="text" placeholder="輸入Email" key="mail-input"/>
+        </template>
+        <button @@click="handleToggle">切換</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                type:'name'
+            },
+            methods: {
+                handleToggle: function () {
+                    this.type = this.type === 'name' ? 'mail' : 'name';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
