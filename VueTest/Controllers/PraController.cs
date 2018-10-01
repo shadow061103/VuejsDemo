@@ -27,5 +27,9 @@ namespace VueTest.Controllers
             //商品分類
             return View();
         }
+        public ActionResult Action()
+        {
+            return View();
+        }
     }
 }

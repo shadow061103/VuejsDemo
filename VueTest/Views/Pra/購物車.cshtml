@@ -18,7 +18,7 @@
         table {
         border:1px solid #e9e9e9;
         border-collapse:collapse;
-        border-spacing:0;;
+        border-spacing:0;
         empty-cells:show;
             
         }
@@ -39,22 +39,32 @@
     </style>
 </head>
 <body>
+    <h2>購物車</h2>
     <div id="app" v-cloak>
          <template v-if="list.length">
              <table>
                  <thead>
                      <tr>
                          <th></th>
+                         <th>
+                             <input type="checkbox" v-model="selectAll" @@click="handleChecked"/>全選
+                         </th>
+                         
                          <th>商品名稱</th>
                          <th>單價</th>
                          <th>數量</th>
+                         <th>小計</th>
                          <th>操作</th>
                      </tr>
                      
                  </thead>
                  <tbody>
                      <tr v-for="(item,index) in list">
-                         <td>{{index+1}}</td>
+
+                         <td>{{index}}</td>
+                         <td>
+                             <input type="checkbox"  :value="item.id" v-model="checkedItems" @@click="handleCheckitems" />
+                         </td>
                          <td>{{item.name}}</td>
                          <td>{{item.price}}</td>
                          <td>
@@ -64,12 +74,16 @@
                              <button @@click="handleAdd(index)">+</button>
                          </td>
                          <td>
+                             {{item.price * item.count}}
+                         </td>
+                         <td>
                              <button @@click="handleRemove(index)">移除</button>
                          </td>
                      </tr>
                  </tbody>
              </table>
              <div>總價 : NT${{totalPrice}}</div>
+             {{checkedItems}}
          </template>
         <div v-else>購物車為空</div>
     </div>
@@ -78,21 +92,13 @@
             el: '#app',
             data: {
                 list: [
-                    { id: 1, name: 'Iphone 7', price: 26000, count: 1 },
+                    { id: 1, name: 'Iphone 7', price: 26000, count: 1},
                     { id: 2, name: 'Ipad pro', price: 5000, count: 1 },
-                    { id: 3, name: 'Mac book pro', price: 39000, count: 1 },
-                ]
-            },
-            computed: {
-                totalPrice: function () {
-                    var total = 0;
-                    for (var i = 0; i < this.list.length; i++)
-                    {
-                        var item = this.list[i];
-                        total += item.price * item.count;
-                    }
-                    return total.toString().replace(/\B(?=(\d{3})+$)/g, ',');//價格每三位一個,
-                }
+                    { id: 3, name: 'Mac book pro', price: 39000, count: 1},
+                ],
+                checkedItems: [],
+                selectAll: false
+                
             },
             methods: {
                 handleReduce: function (index) {
@@ -104,8 +110,55 @@
                     this.list[index].count++;
                 },
                 handleRemove: function (index) {
-                     this.list[index].splice(index, 1);
-                    delete this.list[index];
+                    var id = this.list[index].id;//要先記起來才不會刪錯
+                    this.list.splice(index, 1);
+                    var ref = this.checkedItems.indexOf(id);//刪掉checkbox的array
+                    this.checkedItems.splice(ref, 1);
+                     
+                },
+                handleChecked: function () { //全選的method
+                    this.checkedItems = [];
+                    if (this.selectAll === false)
+                    {
+                        for (let i in this.list)
+                        {
+                            this.checkedItems.push(this.list[i].id);
+                        }
+                    }
+
+                },
+                handleCheckitems: function () {
+                    console.log('取消全選checkbox');
+                   
+                    if (this.list.length !== (this.checkedItems.length-1))//要減1因為都全選的話進來會相等
+                    {
+                        console.log('cancel');
+                        this.selectAll = false;
+                    }
+                        
+                    
+                }
+                
+            },
+            computed: {
+                totalPrice: function () {
+                    
+                    let total = 0;
+                    
+                    for (var i = 0; i < this.list.length; i++)
+                    {
+                        let item = this.list[i];
+                        let index = this.checkedItems.indexOf(item.id);
+                        if (index != -1)
+                        {
+                            total += item.price * item.count;
+                        }
+
+                        
+                    }
+                    
+
+                    return total.toString().replace(/\B(?=(\d{3})+$)/g, ',');//價格每三位一個,
                 }
             }
         });

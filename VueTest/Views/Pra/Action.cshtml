@@ -1,0 +1,148 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Action</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="row">
+            <template v-if="goods.length==0">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <p style="text-align: center;margin: 100px auto">
+                            购物车中暂无商品
+                            <a href="">武斌博客wubin.pro</a>
+                        </p>
+                    </div>
+                </div>
+            </template>
+            <template v-else>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">购物车</h3>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" @@click="selectAll" v-model="allCheck">
+                                    </th>
+                                    <th>商品名称</th>
+                                    <th>商品单价</th>
+                                    <th>数量</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(v,k) in goods">
+                                    <td>
+                                        <input type="checkbox" checked="allSelectData.indexOf(v.id)!=-1" @@click="select(v.id)">
+                                    </td>
+                                    <td>{{v.name}}</td>
+                                    <td>{{v.price}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-success btn-xs" @@click="reduce(k)"> -</button>
+                                        <input type="text" v-model="v.num" style="width: 30px;text-align: center">
+                                        <button type="button" class="btn btn-primary btn-xs" @@click="plus(k)"> +</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" @@click="del(k)"> 删除</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel-footer ">
+                        <p style="text-align: right">
+                            总计：<span>{{totalPrice}}</span> 元
+                        </p>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    <script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            //商品数据
+            goods: [
+                {"id": 1, "name": "荣耀 V10 高配版 6GB+64GB 幻夜黑 移动联通电信4G全面屏游戏手机 双卡双待", "price": 2799, "num": 1},
+                {"id": 2, "name": "三星 Galaxy S9+（SM-G9650/DS）6GB+128GB 谜夜黑 移动联通电信4G手机 双卡双待", "price": 6999, "num": 1},
+                {"id": 5, "name": "华为 HUAWEI nova 2S 全面屏四摄 6GB +64GB 曜石黑 移动联通电信4G手机 双卡双待", "price": 2799, "num": 3},
+                {"id": 7, "name": "360手机 N6 Pro 全网通 6GB+64GB 极夜黑 移动联通电信4G手机 双卡双待 全面屏 游戏手机", "price": 1699, "num": 5},
+                {"id": 8, "name": "锤子 坚果 Pro 2 碳黑色（细红线版） 全面屏双摄 6+64GB 全网通 移动联通电信4G手机 双卡双待", "price": 2099, "num": 1},
+                {"id": 9, "name": "三星 Galaxy Note8（SM-N9500）6GB+128GB 谜夜黑 移动联通电信4G手机 双卡双待", "price": 7388, "num": 2},
+            ],
+            allSelectData: [],
+            allCheck: true
+        },
+        mounted() {
+            //控制加载页面全部选中
+            this.goods.forEach((v, k) => {
+                this.allSelectData.push(v.id)
+            });
+        },
+        methods: {
+            //全选
+            selectAll(event) {
+                if (!event.currentTarget.checked) {
+                    this.allSelectData = [];
+                } else {//全选
+                    this.allSelectData = [];
+                    this.goods.forEach((v, k) => {
+                        this.allSelectData.push(v.id);
+                    })
+                }
+            },
+            //每个选项
+            select(id) {
+                //检测当前商品是否在数组中
+                var res = this.allSelectData.indexOf(id);
+                res == -1 ? this.allSelectData.push(id) : this.allSelectData.splice(res, 1);
+                this.allCheck = this.allSelectData.length == this.goods.length ? true : false;
+            },
+            //删除当前购物车商品数据
+            del(item) {
+                this.goods.splice(item, 1);
+            },
+            //数量减
+            reduce(k) {
+                this.goods[k].num--;
+                if (this.goods[k].num == 0) {
+                    this.goods.splice(k, 1);
+                }
+            },
+            //数量加
+            plus(k) {
+                this.goods[k].num++;
+            }
+        },
+        computed: {
+            //商品总价
+            totalPrice() {
+                let total = 0;
+                this.goods.forEach((v, k) => {
+                    var res = this.allSelectData.indexOf(v.id);
+                    if (res != -1) {
+                        total += v.price * v.num;
+                    }
+                })
+                return total;
+            }
+        }
+
+    })
+    </script>
+</body>
+</html>
