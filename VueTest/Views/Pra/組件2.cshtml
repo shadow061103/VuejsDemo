@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>組件2</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>總數{{total}}</p> 
+        <my-component v-model="total"></my-component>
+        <my-component @@input="handleGetTotal"></my-component>
+    </div>
+    <script>
+        Vue.component('my-component', {
+            template: '<button @@click="handleClick">+1</button>',
+            data: function () {
+                return {
+                    counter: 0
+                }
+            },
+            methods: {
+                handleClick: function () {
+                    this.counter++;
+                    this.$emit('input', this.counter);//語法糖
+                },
+                
+            }
+
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                total:0
+            },
+            methods: {
+                handleGetTotal: function (total) {
+                    this.total = total;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

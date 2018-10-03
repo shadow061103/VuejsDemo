@@ -1,0 +1,71 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>組件</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+
+</head>
+<body>
+    <div id="app"> 
+       
+        <p>總數{{total}}</p>
+        <my-component @@increase="handleGetTotal" @@reduce="handleGetTotal"></my-component>
+        
+        <local-component></local-component>
+    </div>
+    <script>
+        var data = { counter: 0 };
+        //全域註冊
+        Vue.component('my-component', {
+            template: '<div><button @@click="handleIncrease">+1</button>\
+                <button @@click="handleReduce">-1</button></div>',
+            //外部數據
+            data: function () {
+                    return {
+                        counter: 0
+                    }
+                
+            },
+            methods: {
+                handleIncrease:function(){
+                    this.counter++;
+                    this.$emit('increase', this.counter);
+                },
+                handleReduce: function () {
+                    this.counter--;
+                    this.$emit('reduce', this.counter);
+                }
+                
+            }
+            
+        })
+        var child = {//局部註冊
+            template: '<div>局部註冊組件的內容</div>'
+        }
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+               total:0
+            },
+            methods:{
+                handleGetTotal: function (total) {
+                    this.total = total;
+                }
+            },
+            component:
+                {
+                    'local-component': child
+                }
+        });
+    </script>
+</body>
+</html>

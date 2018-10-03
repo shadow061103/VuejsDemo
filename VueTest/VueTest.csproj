@@ -183,7 +183,12 @@
     <Content Include="Views\Pra\Test2.cshtml" />
     <Content Include="Views\Pra\Test3.cshtml" />
     <Content Include="Views\Pra\購物車.cshtml" />
-    <Content Include="Views\Pra\Action.cshtml" />
+    <Content Include="Views\Pra\表單.cshtml" />
+    <Content Include="Views\Pra\組件.cshtml" />
+    <Content Include="Views\Pra\組件2.cshtml" />
+    <Content Include="Views\Pra\組件3.cshtml" />
+    <Content Include="Views\Pra\組件4.cshtml" />
+    <Content Include="Views\Pra\組件5.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

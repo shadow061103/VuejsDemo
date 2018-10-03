@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>組件5</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button @@click="handleRef">通過ref獲取子組件實例</button> 
+        <component-a ref="comA"></component-a>
+    </div>
+    <script>
+        Vue.component('component-a', {
+            template: '<div>子組件</div>',
+            data: function () {
+                return { message: '子組件內容' }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            methods: {
+                handleRef: function () {
+                    //通過ref來訪問
+                    var msg = this.$refs.comA.message;
+                    console.log(msg);
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

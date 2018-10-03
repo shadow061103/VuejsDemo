@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>組件4</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+         {{message}}
+        <component-a></component-a>
+    </div>
+    <script>
+        var bus = new Vue();//負責監聽
+        Vue.component('component-a', {
+            template: '<button @@click="handleEvent">傳遞事件</button>',
+            methods: {
+                handleEvent: function () {
+                    bus.$emit('on-message', '來自組件component-a的內容');
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message:''
+            },
+            mounted: function () {
+                var self = this;
+                //實例初始化的時候監聽來自bus的事件
+                bus.$on('on-message', function (msg) {
+                    self.message = msg;
+                })
+            }
+        });
+    </script>
+</body>
+</html>

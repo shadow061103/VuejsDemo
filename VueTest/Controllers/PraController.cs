@@ -27,8 +27,30 @@ namespace VueTest.Controllers
             //商品分類
             return View();
         }
-        public ActionResult Action()
+        public ActionResult 表單()
         {
+            return View();
+        }
+        public ActionResult 組件()
+        {//emit
+            return View();
+        }
+        public ActionResult 組件2()
+        {
+            return View();
+        }
+        public ActionResult 組件3()
+        {//雙向綁定
+            //接收一個value屬性
+            //有新的value時觸發input事件
+            return View();
+        }
+        public ActionResult 組件4()
+        {//非父子組件通信
+            return View();
+        }
+        public ActionResult 組件5()
+        {//子組件索引
             return View();
         }
     }

@@ -1,0 +1,50 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>表單</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <input type="radio" v-model="picked" value="html" id="html" />
+        <label for="html">html
+        </label><br/>
+        <input type="radio" v-model="picked" value="js" id="js" />
+        <label for="html">
+            javascript
+        </label><br />
+        <input type="radio" v-model="picked" value="css" id="css" />
+        <label for="html">
+            css
+        </label>
+        <br />
+        <select v-model="selected">
+            <option>html</option>
+            <option value="js">javascript</option>
+            <option>css</option>
+        </select>
+        {{selected}}
+        <br />
+        <input type="text" v-model.lazy="message" />@*綁在change事件*@
+        <p>{{message}}</p>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                picked: 'js',
+                selected: 'html',
+                message:''
+            }
+        });
+    </script>
+</body>
+</html>
