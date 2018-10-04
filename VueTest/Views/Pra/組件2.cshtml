@@ -11,12 +11,22 @@
     <title>組件2</title>
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/vue.min.js"></script>
+
+
+
+
 </head>
 <body>
     <div id="app">
         <p>總數{{total}}</p> 
         <my-component v-model="total"></my-component>
         <my-component @@input="handleGetTotal"></my-component>
+
+        <custom-input v-model="searchText"></custom-input>
+        <custom-input v-bind:value="searchText" v-on:input="searchText = $event"></custom-input>
+        <input v-bind:value="searchText" type="text"
+               v-on:input="searchText = $event.target.value">
+        
     </div>
     <script>
         Vue.component('my-component', {
@@ -38,7 +48,8 @@
         var app = new Vue({
             el: '#app',
             data: {
-                total:0
+                total: 0,
+                searchText:''
             },
             methods: {
                 handleGetTotal: function (total) {
@@ -46,6 +57,10 @@
                 }
             }
         });
+        Vue.component('custom-input', {
+            props: ['value'],
+            template: `<input type="text" v-bind:value="value" v-on:input="$emit('input', $event.target.value)">`
+        })
     </script>
 </body>
 </html>
