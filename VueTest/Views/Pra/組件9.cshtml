@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>組件9</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="mount-div"> 
+    </div>
+    <script>
+        var myComponent = Vue.extend({//沒有el 未掛載狀態
+            template: '<div>Hello,{{name}}</div>',
+            data: function () {
+                return {
+                    name:'Aresn'
+                }
+            }
+
+        });
+        new myComponent().$mount('#mount-div');
+    </script>
+</body>
+</html>

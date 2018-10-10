@@ -189,6 +189,14 @@
     <Content Include="Views\Pra\組件3.cshtml" />
     <Content Include="Views\Pra\組件4.cshtml" />
     <Content Include="Views\Pra\組件5.cshtml" />
+    <Content Include="Views\Pra\組件6.cshtml" />
+    <Content Include="Views\Pra\組件7.cshtml" />
+    <Content Include="Views\Pra\組件8.cshtml" />
+    <Content Include="Views\Pra\組件9.cshtml" />
+    <Content Include="Views\Pra\組件10.cshtml" />
+    <Content Include="Views\Pra\組件11.cshtml" />
+    <Content Include="Views\Pra\指令.cshtml" />
+    <Content Include="Views\Pra\指令2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

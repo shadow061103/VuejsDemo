@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>組件6</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+         <child-component>
+             <p>內容1</p>
+             <p>內容2</p>
+         </child-component>
+        <child-component2 :count="1"></child-component2>
+        <child-component3 inline-template>
+            <p>這是內連模板</p>
+            {{msg}}
+        </child-component3>
+
+</div>
+    <script>
+        Vue.component('child-component', {
+            template: '<div><slot><p>如果沒插入內容 這邊就會出現</p></slot></div>'
+        });
+        Vue.component('child-component2', { //遞迴
+            props: {
+                count: {
+                    type: Number,
+                    default: 1
+                }
+            },
+            template: '<div class="child"><child-component2 :count="count+1" v-if="count<3></child-component2>"</div>'
+        });
+        Vue.component('child-component3', {
+            data: function () {
+                return {
+                    msg:'子組件的數據'
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app'
+
+        })
+    </script>
+</body>
+</html>

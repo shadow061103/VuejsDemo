@@ -1,0 +1,39 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>組件8</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <div id="div" v-if="showDiv">這是一段文本</div>
+        <button @@click="getText">獲取div內容</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                showDiv:false
+            },
+            methods: {
+                getText: function () {
+                    this.showDiv = true;
+                    this.$nextTick(function () {//可以把這註解掉看看 因為dom要下一階段才會產生 所以 innerHTML無效
+                        var text = document.getElementById('div').innerHTML;
+                        console.log(text);
+
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

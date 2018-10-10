@@ -53,5 +53,37 @@ namespace VueTest.Controllers
         {//子組件索引
             return View();
         }
+        public ActionResult 組件6()
+        {//slot
+            return View();
+        }
+        public ActionResult 組件7()
+        {//動態組件
+            return View();
+        }
+        public ActionResult 組件8()
+        {//nexttick vue數據變化不是直接更新DOM 而是在下一個循環tick刷新執行佇列並執行
+            return View();
+        }
+        public ActionResult 組件9()
+        {//手動掛載組件
+            return View();
+        }
+        public ActionResult 組件10()
+        {//輸入框 數字增減
+            return View();
+        }
+        public ActionResult 組件11()
+        {//tabs
+            return View();
+        }
+        public ActionResult 指令()
+        {
+            return View();
+        }
+        public ActionResult 指令2()
+        {//時間轉換
+            return View();
+        }
     }
 }

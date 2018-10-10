@@ -1,0 +1,51 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>指令</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.min.js"></script>
+</head>
+<body>
+    <div id="app">
+         <input type="text" v-focus />
+        <div v-test:msg.a.b="message"></div>
+    </div>
+    <script>
+        Vue.directive('focus', {
+            inserted: function (el) {
+                el.focus();
+            }
+        });
+        Vue.directive('test', {
+            bind: function (el, binding, vnode)
+            {
+                var keys = [];
+                for (var i in vnode)
+                {
+                    keys.push(i);
+                }
+                el.innerHTML='name:'+binding.name+'<br/>'+
+                    'value:' + binding.value+'<br/>'+
+                    'expression'+binding.expression+'<br/>'+
+                    'argument'+binding.arg+'<br/>'+
+                    'modifiers'+JSON.stringify(binding.modifiers)+'<br/>'+
+                    'vnode keys:'+keys.join(', ')
+
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message:'some text'
+            }
+        });
+    </script>
+</body>
+</html>
