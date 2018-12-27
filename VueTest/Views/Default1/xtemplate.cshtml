@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>xtemplate</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <comp></comp>
+        <script type="text/x-template" id="comp1">
+            <p>這是組件內容</p>
+        </script>
+    </div>
+    <script>
+        Vue.component('comp', {
+            template:'#comp1'
+        });
+        var app = new Vue({
+            el:'#app'
+        });
+    </script>
+</body>
+</html>

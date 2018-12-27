@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>emit3</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <p>總數{{total}}</p>
+        <comp v-model="total" ></comp>
+        <button @@click="handleReduce">-1</button>
+    </div>
+    <script>
+        Vue.component('comp', {
+            props: ['value'],
+            template: '<input :value="value" @@input="updateValue">',
+            methods: {
+                updateValue: function (event) {
+                    this.$emit('input', event.target.value);
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                total:0
+            },
+            methods: {
+                handleReduce: function () {
+                    this.total--;
+                }
+            }
+
+        });
+    </script>
+</body>
+</html>

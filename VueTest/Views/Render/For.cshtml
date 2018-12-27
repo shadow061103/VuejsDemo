@@ -1,0 +1,46 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>For</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <ele :list="list"></ele>
+    </div>
+    <script>
+        Vue.component('ele', {
+            props: {
+                list: {
+                    type:Array
+                }
+            },
+            render: function (createElement)
+            {
+                var nodes = [];
+                for (var i = 0; i < this.list.length; i++)
+                {
+                    nodes.push(createElement('p', this.list[i]));
+                }
+                return createElement('div', nodes);
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list: [
+                    'book1', 'book2', 'book3'
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

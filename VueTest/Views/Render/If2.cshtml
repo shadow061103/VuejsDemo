@@ -1,0 +1,60 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>If2</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <comp :list="list"></comp>
+        <button @@click="handleClick">顯示列表</button>
+
+        <h2>正常寫法</h2>
+        <ul v-if="list.length">
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        Vue.component('comp', {
+            props: {
+                list: {
+                    type: Array,
+                    default: function () {
+                        return [];
+                    }
+                }
+            },
+            render: function (createElement) {
+                if (this.list.length) {
+                    return createElement('ul', this.list.map(function (item) {
+                        return createElement('li', item);
+                    }))
+                }
+                else {
+                    return createElement('p','列表為空')
+                }
+            }
+        });
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list:[]
+            },
+            methods: {
+                handleClick: function () {
+                    this.list = ['book1', 'book2', 'book3'];
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>動態組件</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+         <component :is="currentView"></component>
+        <button @@click="changeView('A')">切換到A</button>
+        <button @@click="changeView('B')">切換到B</button>
+        <button @@click="changeView('C')">切換到C</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            components: {
+                comA: { template: '<div>組件A</div>' },
+                comB: { template: '<div>組件B</div>' },
+                comC: { template: '<div>組件C</div>' },
+            },
+            data: {
+                currentView:'comA'
+            },
+            methods: {
+                changeView: function (component) {
+                    this.currentView = 'com' + component;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

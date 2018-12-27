@@ -1,0 +1,57 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Render</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <anchor :level="2" title="特性">特性</anchor>
+    </div>
+    <script type="text/x-template">
+        <h5 v-if="level===5">
+            <a :href="'#'+title">
+                <slot></slot>
+            </a>
+        </h5>
+    </script>
+    <script>
+        Vue.component('anchor', {
+            props: {
+                level: {
+                    type: Number,
+                    required:true
+                },
+                title: {
+                    type: String,
+                    default:''
+                }
+            },
+            render: function (createElement) {
+                return createElement(
+                    'h' + this.level, [
+                        createElement('a', {
+                            domProps: {
+                                href:'#'+this.title
+                            }
+                        },
+                        this.$slots.default)//p.90 訪問某個slot default就是沒有設名稱的
+                    ]
+                    )
+            }
+
+        });
+        var app = new Vue({
+            el:'#app'
+        });
+    </script>
+</body>
+</html>

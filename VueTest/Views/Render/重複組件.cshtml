@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>重複組件</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <ele></ele>
+    </div>
+    <script>
+        var Child = {
+            render: function (createElement) {
+                return createElement('p', 'text');
+            }
+        };
+        Vue.component('ele', {
+            render: function (createElement) {
+                return createElement('div',{
+                    class: {
+                        'active':'active'
+                    }
+                },
+                    Array.apply(null, { //這邊是子節點 建一個陣列
+                        length:5
+                    }).map(function () {
+                        return createElement(Child);
+                    })
+                    );
+            }
+        });
+        var app = new Vue({
+            el:'#app'
+        });
+    </script>
+</body>
+</html>

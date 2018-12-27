@@ -1,0 +1,56 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>emit</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+         <p>總數:{{total}}</p>
+        <comp @@increase="handleGetTotal" @@reduce="handleGetTotal" ></comp>
+    </div>
+    <script>
+        Vue.component('comp', {
+
+            template: '<div><button @@click="handleIncrease">+1</button>\
+                <button @@click="handleReduce">-1</button></div>',
+            data: function () {
+                return {
+                    counter:0
+                }
+            },
+            methods: {
+                handleIncrease: function () {
+                    this.counter++;
+                    this.$emit('increase', this.counter);
+                },
+                handleReduce: function () {
+                    this.counter--;
+                    this.$emit('reduce', this.counter);
+                }
+            }
+            
+                       
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                total:0
+            },
+            methods: {
+                handleGetTotal: function (total) {
+                    this.total = total;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

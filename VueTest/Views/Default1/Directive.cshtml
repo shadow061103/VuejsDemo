@@ -1,0 +1,31 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Directive</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <input type="text" v-focus />
+    </div>
+    <script>
+        Vue.directive('focus', {
+            inserted: function (el) {
+                el.focus();
+            }
+        });
+        var app = new Vue({
+
+            el:'#app'
+        });
+    </script>
+</body>
+</html>

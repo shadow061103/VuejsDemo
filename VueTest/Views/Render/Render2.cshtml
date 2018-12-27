@@ -1,0 +1,60 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Render2</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <ele></ele>
+    </div>
+    <script type="text/x-template" id="elem">
+        <div id="element" :class="{show:show}" @@click="handleClick">
+            文本內容
+        </div>
+    </script>
+    <script>
+        Vue.component('ele', {
+            //template: '#elem',
+            data: function () {
+                return {
+                    show:true
+                }
+            },
+            methods: {
+                handleClick: function () {
+                    console.log('clicked!');
+                }
+
+            },
+            render: function (createElement) {
+                return createElement('div', {
+                    class: {
+                        'show':this.show
+                    },
+                    attrs: {
+                        id:'element'
+                    },
+                    on: {
+                        click: this.handleClick
+                    }
+
+                },
+                '文本內容')
+            }
+
+        });
+        var app = new Vue({
+            el:'#app'
+        });
+    </script>
+</body>
+</html>

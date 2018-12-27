@@ -1,0 +1,79 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <ul>
+            <template v-for="book in books">
+                <li>書名:{{book.name}}-作者:{{book.author}}</li>
+            </template>
+        </ul>
+        <br/>
+        點擊次數:{{counter}}<br />
+        <button @@click="handleAdd()">+1</button><br />
+        <button @@click="handleAdd(10)">+10</button><br />
+        @*原生$event*@
+        <a href="www.google.com" @@click="handleClick('禁止開啟',$event)">開啟連結</a> <br />
+        <a @@click.stop="handle">
+
+        </a><br />
+        <input @@keyup.13="submit" />按下按鈕才呼叫
+        <br />
+        <div @@click.ctrl="dosomething">do something</div>
+
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                books: [
+                    { name: 'book1', author: 'kuan' },
+                    { name: 'book2', author: 'abby' },
+                     { name: 'book3', author: 'jenny' },
+                ],
+                counter:0
+
+            },
+            methods: {
+                handleAdd: function (count) {
+                    count = count || 1;
+                    this.counter += count;
+                },
+                handleClick: function (message, event)
+                {
+                    event.preventDefault();
+                    window.alert(message);
+                },
+                submit: function () {
+                    alert('按下enter');
+                },
+                dosomething: function () {
+                    alert('do something');
+                }
+            }
+
+        });
+        //app.books = app.books.filter(function (item) {
+        //    return item.name.match(/book1/);
+        //});
+        Vue.set(app.books, 2, {
+            name: 'book3-1', author: 'Tom'
+        });
+        //this.$set
+        app.$set(app.books, 3, {
+            name: 'book4', author: 'peter'
+        });
+    </script>
+</body>
+</html>

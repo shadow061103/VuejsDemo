@@ -1,0 +1,274 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RenderTest</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <style>
+        [v-cloak] {
+        display:none;
+        }
+        table {
+        
+        width:100%;
+        margin-bottom:24px;
+        border-collapse:collapse;
+        border-spacing:0;
+        empty-cells:show;
+        border:1px solid #e9e9e9;
+        }
+            table th {
+            background:#f7f7f7;
+            color:#5c6b77;
+            font-weight:600;
+            white-space:nowrap;
+            
+            }
+            table td, table th {
+            padding:8px 16px;
+            border:1px solid #e9e9e9;
+            text-align:left;
+            
+            }
+                table th a {
+                display:inline-block;
+                margin:0 4px;
+                cursor:pointer;
+                
+                }
+                    table th a.on {
+                    
+                    color:#3399ff;
+                    }
+                    table th a:hover {
+                    color:#3399ff;
+                    }
+
+
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak>
+         <v-table :data="data" :columns="columns"></v-table>
+        <button @@click="handleAddData">增加資料</button>
+    </div>
+    <script>
+        //table
+        Vue.component('vTable', {
+            props: {
+                columns: { //表頭
+                    type: Array,
+                    default: function () {
+                        return [];
+                    }
+                },
+                data: { //資料
+                    type: Array,
+                    default: function () {
+                        return [];
+                    }
+                }
+            },
+            data: function () {
+                return {
+                    currentColumns: [],//不對原始資料處理
+                    currentData:[]
+                }
+            },
+            methods: {
+                makeColumns: function () { //初始化資料
+                    this.currentColumns = this.columns.map(function (col, index) {
+                        col._sortType = 'normal'; //標示目前排序狀態
+                        col._index = index; //標示目前陣列索引
+                        return col;
+                    });
+                },
+                makeData: function () {//初始化資料
+                    this.currentData = this.data.map(function (row, index) {
+                        row._index = index; //標示目前陣列索引
+                        return row;
+                    });
+                },
+                handleSortByAsc: function (index)
+                {
+                    var key = this.currentColumns[index].key;
+                    //全部重置
+                    this.currentColumns.forEach(function (col) {
+                        col._sortType = 'normal';
+                    });
+                    this.currentColumns[index]._sortType = 'asc';
+                    this.currentData.sort(function (a, b) {
+                        return a[key] > b[key] ? 1 : -1;
+                    });
+                },
+                handleSortByDesc: function (index) {
+                    var key = this.currentColumns[index].key;
+                    this.currentColumns.forEach(function (col) {
+                        col._sortType = 'normal';
+                    });
+                    this.currentColumns[index]._sortType = 'desc';
+                    this.currentData.sort(function (a, b) {
+                        return a[key] < b[key] ? 1 : -1;
+                    });
+                }
+            },
+            mounted() {
+                //初始化時使用
+                this.makeColumns();
+                this.makeData();
+            },
+            render: function (createElement) {
+                var self = this;
+                var ths = [];
+                
+                //建造表頭
+                this.currentColumns.forEach(function (col, index) {
+                    if (col.sortable)
+                    {
+                        ths.push(createElement('th', [
+                            createElement('span', col.title),
+                            //升冪
+                            createElement('a', {
+                                class: {
+                                    on:col._sortType==='asc'
+                                },
+                                on: {
+                                    click: function () {
+                                        self.handleSortByAsc(index)
+                                    }
+                                }
+
+                            }, '↑'),
+                            //降冪
+                            createElement('a', {
+                                class: {
+                                    on:col._sortType==='desc'
+                                },
+                                on: {
+                                    click: function () {
+                                        self.handleSortByDesc(index)
+                                    }
+                                }
+                            },'↓')
+                        ]));
+                    }
+                    else
+                    {
+                        ths.push(createElement('th', col.title));
+                    }
+                });
+
+
+                var trs = [];
+                this.currentData.forEach(function (row) {
+                    var tds = [];
+                    self.currentColumns.forEach(function (cell) {
+                        tds.push(createElement('td', row[cell.key]));
+                    });
+                    trs.push(createElement('tr', tds));
+                });
+                return createElement('table', [
+                    createElement('thead', [
+                        createElement('tr', ths)
+                    ]),
+                    createElement('tbody', trs)
+
+                ])
+
+
+            },
+            watch: {
+                data: function () {
+                    console.log('watch data')
+                    this.makeData();
+                    var sortedColumn = this.currentColumns.filter(function (col) {
+                        return col._sortType !== 'normal';
+                    });
+                    if (sortedColumn.length > 0)
+                    {
+                        if (sortedColumn[0]._sortType === 'asc')
+                        {
+                            this.handleSortByAsc(sortedColumn[0]._index);
+                        }
+                        else
+                            this.handleSortByDesc(sortedColumn[0]._index);
+                    }
+
+                }
+            }
+        });
+
+
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                columns: [
+                    {
+                        title: '姓名',
+                        key:'name' //key對應資料的欄位
+                    },
+                    {
+                        title: '年齡',
+                        key: 'age',
+                        sortable:true
+                    },
+                    {
+                        title: '出生日期',
+                        key: 'birthday',
+                        sortable: true
+                    },
+                    {
+                        title: '地址',
+                        key: 'address'
+                    }
+                ],
+                data: [
+                    {
+                        name: 'Kuan',
+                        age: 18,
+                        birthday: '1990-05-22',
+                        address:'高雄市楠梓區常德路'
+                    },
+                    {
+                        name: 'Kuan2',
+                        age: 19,
+                        birthday: '1990-05-23',
+                        address: '高雄市楠梓區常德路2'
+                    },
+                    {
+                        name: 'Kuan3',
+                        age: 20,
+                        birthday: '1990-05-24',
+                        address: '高雄市楠梓區常德路3'
+                    },
+                    {
+                        name: 'Kuan4',
+                        age: 20,
+                        birthday: '1990-05-25',
+                        address: '高雄市楠梓區常德路4'
+                    }
+                ]
+            },
+            methods: {
+                handleAddData: function () {
+                    console.log('add data');
+                    this.data.push({
+                        name: 'Kuan5',
+                        age: 20,
+                        birthday: '1990-05-26',
+                        address: '高雄市楠梓區常德路5'
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

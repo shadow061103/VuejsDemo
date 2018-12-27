@@ -1,0 +1,295 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RenderTest2</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <style>
+        [v-cloak]{
+            display:none;
+            }
+        * {
+        padding:0;
+        margin:0;
+        
+        }
+        .message {
+        width:450px;
+        text-align:right;
+        
+        }
+            .message div {
+            margin-bottom:12px;
+            
+            }
+            .message span{
+                display:inline-block;
+                    width:100px;
+                    vertical-align:top;
+
+            }
+            .message input, .message textarea {
+            width:300px;
+            height:32px;
+            padding:0 6px;
+            color:#657180;
+            border:1px solid #d7dde4;
+            border-radius:4px;
+            cursor:text;
+            outline:none;
+            
+            }
+                .message input:focus, .message textarea:focus {
+                border:1px solid #3399ff;
+
+                
+                }
+            .message textarea {
+            
+            height:60px;
+            padding:4px 6px;
+            }
+            .message button {
+            display:inline-block;
+            padding:6px 5px;
+            border:1px solid #39f;
+            border-radius:4px;
+            color:#fff;
+            background-color:#39f;
+            cursor:pointer;
+            outline:none;
+            
+            }
+        .list {
+        
+        margin-top:50px;
+        }
+        .list-item {
+        padding:10px;
+        border-bottom:1px solid #e3e8ee;
+        overflow:hidden;
+        
+        }
+            .list-item span {
+            display:block;
+            width:60px;
+            float:left;
+            color:#39f;
+            
+            }
+        .list-msg {
+        display:block;
+        margin-left:60px;
+        text-align:justify;
+        
+        }
+        .list-msg a{
+            color:#9ea7b4;
+            cursor:pointer;
+            float:right;
+
+        }
+        .list-mag a:hover {
+        
+        color:#39f;
+        }
+        .list-nothing {
+        text-align:center;
+        color:#9ea7b4;
+        padding:20px;
+        
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak style="width:500px;margin:0 auto;"> 
+        
+        <div class="message">
+            <v-input v-model="username"></v-input>
+            <v-textarea v-model="message" prefix="message"></v-textarea>
+            <button @@click="handleSend">發送</button>
+
+
+        </div>
+        <list :list="list" @@reply="handleReply"></list>
+    </div>
+    <script>
+        Vue.component('vInput', {
+            props: {
+                value: {
+                    type: [String, Number],
+                    default:''
+                }
+            },
+            render: function (createElement)
+            {
+                var self = this;
+                return createElement('div', [
+                    createElement('span', '暱稱'),
+                    createElement('input', {
+                        attrs: {
+                            type:'text'
+                        },
+                        domProps: {
+                            value:this.value
+                        },
+                        on: {
+                            input: function (event) {
+                                self.value = event.target.value;
+                                self.$emit('input', event.target.value);
+                            }
+                        }
+                    })
+                ]);
+            }
+        });
+        Vue.component('vTextarea', {
+            props: {
+                values: {
+                    type: String,
+                    defaulr:''
+                }
+            },
+            render: function (createElement) {
+                var self = this;
+                return createElement('div', [
+                    createElement('span', '留言內容'),
+                    createElement('textarea', {
+                        attrs: {
+                            placeholder:'請輸入留言內容'
+                        },
+                        domProps: {
+                            value:this.value
+                        },
+                        ref: 'message',
+                        on: {
+                            input: function (event)
+                            {
+                                self.value = event.target.value;
+                                self.$emit('input', event.target.value);
+                            }
+                        }
+                    })
+
+                ]);
+            },
+            methods: {
+                focus: function () {
+                    this.$refs.message.focus();
+                }
+            }
+
+
+        });
+        Vue.component('list', {
+
+            props: {
+                list: {
+                    type: Array,
+                    default: function () {
+                        return [];
+                    }
+                }
+            },
+            render: function (createElement) {
+                var self = this;
+                var list = [];
+                this.list.forEach(function (msg, index) {
+                    var node = createElement('div', {
+                        attrs: {
+                            class:'list-item'
+                        }
+                    }, [
+                        createElement('span', msg.name + ':'),
+                        createElement('div', {
+                            attrs: {
+                                class:'list-msg'
+                            }
+                        }, [
+                            createElement('p', msg.message),
+                            createElement('a', {
+                                attrs: {
+                                    class:'list-reply'
+                                },
+                                on: {
+                                    click: function () {
+                                        self.handleReply(index);
+                                    }
+                                }
+                            },'回覆')
+                        ])
+                    ]);
+                    list.push(node);
+
+
+                });
+                if (this.list.length) {
+                    return createElement('div', {
+                        attrs: {
+                            class: 'list'
+                        }
+                    }, list);
+                }
+                else {
+                    return createElement('div', {
+                        attrs: {
+                            class: 'list-nothing'
+                        }
+                    }, '留言列表為空');
+                }
+            },
+            methods:{
+                handleReply:function(index)
+                {
+                    this.$emit('reply', index);
+                }
+            }
+
+        });
+
+
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                username: '',
+                message: '',
+                list:[]
+            },
+            methods: {
+                handleSend: function () {
+                    if (this.username === '')
+                    {
+                        alert('請輸入暱稱');
+                        return;
+                    }
+                    if (this.message === '')
+                    {
+                        alert('請輸入留言內容');
+                        return;
+                    }
+
+                    this.list.push({
+                        name: this.username,
+                        message:this.message
+                    });
+                    this.message = '';
+                },
+                handleReply: function (index) {
+                    var name = this.list[index].name;
+                    this.message = '回覆@@' + name + ':';
+                    this.$refs.message.focus();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>函數化組件</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+         <smart-item :data="data"></smart-item>
+        <button @@click="change('img')">切換圖片組件</button>
+        <button @@click="change('video')">切換影片組件</button>
+        <button @@click="change('text')">切換文字組件</button>
+    </div>
+    <script>
+        //圖片組件
+        var imgItem = {
+            props: ['data'],
+            render: function (createElement) {
+                return createElement('div', [
+                    createElement('p', '圖片組件'),
+                    createElement('img', {
+                        attrs: {
+                            src: this.data.url
+                        }
+                    })
+                ]);
+            }
+
+        };
+        //影片組件
+        var videoItem = {
+            props: ['data'],
+            render: function (createElement) {
+                return createElement('div', [
+                    createElement('p', '影片組件'),
+                    createElement('video', {
+                        attrs: {
+                            src: this.data.url,
+                            controls: 'controls',
+                            autoplay: 'autoplay'
+                        }
+                    })
+                ]);
+            }
+        };
+        //文字組件
+        var textItem = {
+            props: ['data'],
+            render: function (createElement) {
+                return createElement('div', [
+                    createElement('p', '文字組件'),
+                    createElement('p', this.data.content)
+                ]);
+            }
+        };
+
+        //函數化組件
+        Vue.component('smart-item', {
+            functional: true, //設成true 可使組件無狀態無實例
+            render: function (createElement, context) //透過context提供上下文
+            {
+                function getComponent()
+                {
+                    var data = context.props.data;
+                    //判斷data是屬於哪個類型
+                    if (data.type === 'img') return imgItem;
+                    if (data.type == 'video') return videoItem;
+                    return textItem;
+                }
+                return createElement(getComponent(),
+                    {
+                        props: {
+                            data:context.props.data //把props傳給上面的組件
+                        }
+                    },
+                    context.children) //this.$slots.default
+            },
+            props: {
+                data: {
+                    type: Object,
+                    required:true
+                }
+            }
+
+        });
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                data: {}
+            },
+            methods: {
+                //切換不同類型組件
+                change:function(type)
+                {
+                    if (type === 'img') {
+                        this.data = {
+                            type: 'img',
+                            url: 'https://img.chinatimes.com/newsphoto/2017-12-16/590/20171216003910.jpg'
+                        }
+                    }
+                    else if (type === 'video')
+                    {
+                        this.data = {
+                            type: 'video',
+                            url:'http://vjs.zencdn.net/v/oceans.mp4'
+                        }
+                    }
+                    else if (type === 'text')
+                    {
+                        this.data = {
+                            type: 'text',
+                            content:'這是一段文本'
+                        }
+                    }
+
+                }
+
+
+            },
+            created: function () {
+                this.change('img');
+            }
+        });
+    </script>
+</body>
+</html>

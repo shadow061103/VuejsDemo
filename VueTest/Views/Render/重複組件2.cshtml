@@ -1,0 +1,72 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>重複組件2</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ele>
+            <div>
+                <child></child>
+            </div>
+        </ele>
+    </div>
+    <script>
+        Vue.component('child', {
+            render: function (createElement) {
+                return createElement('p', 'text');
+            }
+        });
+
+       
+        Vue.component('ele',{
+            render:function (createElement) {
+                //克隆slot節點的方法
+                function cloneVNode(vnode) {
+                    //遞歸遍歷所有子節點，並克隆
+                    const cloneChildren = vnode.children && vnode.children.map(function (vnode) {
+                        return cloneVNode(vnode);
+                    });
+                    const cloned = createElement(
+                        vnode.tag,
+                        vnode.data,
+                        cloneChildren
+                    );
+                    cloned.text = vnode.text;
+                    cloned.isComment = vnode.isComment;
+                    cloned.componentOptions = vnode.componentOptions;
+                    cloned.elm = vnode.elm;
+                    cloned.context = vnode.context;
+                    cloned.ns = vnode.ns;
+                    cloned.isStatic = vnode.isStatic;
+                    cloned.key = vnode.key;
+
+                    return cloned;
+                }
+                const vNodes = this.$slots.default;
+                const clonedVNodes = vNodes.map(function (vnode) {
+                    return cloneVNode(vnode);
+                });
+                
+                return createElement('div',[
+                    vNodes,
+                    clonedVNodes
+                ]);
+            }
+        });
+
+        var app = new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+</html>

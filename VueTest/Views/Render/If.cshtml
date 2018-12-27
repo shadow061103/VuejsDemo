@@ -1,0 +1,45 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>If</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+          <ele :show="show"></ele>
+        <button @@click="show=!show">切換show</button>
+    </div>
+    <script>
+        Vue.component('ele', {
+
+            render: function (createElement)
+            {
+                if(this.show)
+                    return createElement('p', 'show為true')
+                else
+                    return createElement('p', 'show為false')
+            },
+            props: {
+                show: {
+                    type: Boolean,
+                    default:false
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                show:false
+            }
+        });
+    </script>
+</body>
+</html>

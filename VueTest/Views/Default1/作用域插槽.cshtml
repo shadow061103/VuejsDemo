@@ -1,0 +1,63 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>作用域插槽</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <comp1>
+            <template scope="props">
+                @*臨時變量可以訪問子組件的msg*@
+            <p>來自父組件內容</p>
+            <p>{{props.msg}}</p>
+            </template>
+        </comp1>
+        <comp2 :books="books">
+            <template slot="book" scope="props">
+                <li>{{props.bookName}}</li>
+            </template>
+                      
+        </comp2>
+</div>
+<script>
+    Vue.component('comp1', {
+        template: '<div class="container"><slot msg="來自子組件內容"></slot></div>'
+    });
+    Vue.component('comp2', {
+        props: {
+            books: {
+                type: Array,
+                default: function () {
+                    return [];
+                }
+            }
+        },
+        template: '<ul>\
+                  <slot name="book" v-for="book in books" :book-name="book.name">\
+                  </slot>\
+                </ul>'
+
+    });
+    var app = new Vue({
+        el: '#app',
+        data: {
+            books: [
+                { name: 'book1' },
+                { name: 'book2' },
+                { name: 'book3' },
+                { name: 'book4' }
+            ]
+        }
+    });
+</script>
+</body>
+</html>

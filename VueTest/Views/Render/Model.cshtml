@@ -1,0 +1,53 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Model</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+         <comp></comp>
+        <input v-model="value" />
+        <p>value :{{value}}</p>
+    </div>
+    <script>
+        Vue.component('comp', {
+            render: function (createElement) {
+                var self = this;
+                return createElement('div', [
+                    createElement('input', {
+                        domProps: {//v-model功能
+                            value:this.value
+                        },
+                        on: {
+                            input: function (event) {
+                                self.value = event.target.value;
+                            }
+                        }
+                    }),
+                    createElement('p','value:'+this.value)
+                ])
+
+            },
+            data: function () {
+                return {
+                    value:''
+                }
+            }
+        });
+        var app = new Vue({
+            el:'#app'
+        });
+
+
+    </script>
+</body>
+</html>

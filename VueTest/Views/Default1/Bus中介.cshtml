@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Bus中介</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        {{message}}<br/>
+        <comp></comp><br />
+        <comp2></comp2>
+        <hr />
+        <label>子組件索引</label>
+        <button @@click="handleRef">獲取子組件實例</button>
+        <comp3 ref="comp3"></comp3>
+    </div>
+    <script>
+        var bus = new Vue();
+
+        Vue.component('comp', {
+            template: '<button @@click="handleEvent">傳遞事件</button>',
+            methods: {
+                handleEvent: function () {
+                    bus.$emit('on-message','來自組件comp的內容') //bus註冊事件 向上層傳遞
+                }
+            }
+
+        });
+        Vue.component('comp2', {
+            template: '<button @@click="handleEvent">通過parent直接修改數據</button>',
+            methods: {
+                handleEvent: function () {
+                    this.$parent.message = '來自組件comp2的內容' //$parent直接跟父組溝通 $children
+                }
+            }
+
+        });
+        Vue.component('comp3', {
+            template: '<div>子組件</div>',
+            data: function () {
+                return {
+                    message:'子組件內容'
+                }
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message:''
+            },
+            methods:{
+                handleRef:function(){
+                    var msg = this.$refs.comp3.message;
+                    console.log(msg);
+                }
+            },
+            mounted: function () {
+                var self = this;
+                bus.$on('on-message', function (msg) { //接收事件
+                    self.message = msg;
+                });
+
+            }
+        });
+    </script>
+</body>
+</html>

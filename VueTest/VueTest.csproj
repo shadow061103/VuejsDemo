@@ -135,8 +135,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\Default1Controller.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\PraController.cs" />
+    <Compile Include="Controllers\RenderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -197,6 +199,31 @@
     <Content Include="Views\Pra\組件11.cshtml" />
     <Content Include="Views\Pra\指令.cshtml" />
     <Content Include="Views\Pra\指令2.cshtml" />
+    <Content Include="Views\Default1\Bus中介.cshtml" />
+    <Content Include="Views\Default1\Directive.cshtml" />
+    <Content Include="Views\Default1\emit.cshtml" />
+    <Content Include="Views\Default1\emit2.cshtml" />
+    <Content Include="Views\Default1\emit3.cshtml" />
+    <Content Include="Views\Default1\Index.cshtml" />
+    <Content Include="Views\Default1\ShopCart.cshtml" />
+    <Content Include="Views\Default1\Slot.cshtml" />
+    <Content Include="Views\Default1\xtemplate.cshtml" />
+    <Content Include="Views\Default1\作用域插槽.cshtml" />
+    <Content Include="Views\Default1\動態組件.cshtml" />
+    <Content Include="Views\Default1\組件練習.cshtml" />
+    <Content Include="Views\Default1\組件練習2.cshtml" />
+    <Content Include="Views\Render\For.cshtml" />
+    <Content Include="Views\Render\If.cshtml" />
+    <Content Include="Views\Render\If2.cshtml" />
+    <Content Include="Views\Render\Model.cshtml" />
+    <Content Include="Views\Render\Render.cshtml" />
+    <Content Include="Views\Render\Render2.cshtml" />
+    <Content Include="Views\Render\RenderTest.cshtml" />
+    <Content Include="Views\Render\RenderTest2.cshtml" />
+    <Content Include="Views\Render\函數化組件.cshtml" />
+    <Content Include="Views\Render\按鍵修飾.cshtml" />
+    <Content Include="Views\Render\重複組件.cshtml" />
+    <Content Include="Views\Render\重複組件2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

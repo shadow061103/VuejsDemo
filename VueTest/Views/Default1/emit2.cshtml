@@ -1,0 +1,42 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>emit2</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <p>總數{{total}}</p>
+        <comp v-model="total"></comp>
+    </div>
+    <script>
+        Vue.component('comp', {
+            template: '<button @@click="handleClick">+1</button>',
+            data: function () {
+                return {counter:0}
+            },
+            methods: {
+                handleClick: function () {
+                    this.counter++;
+                    this.$emit('input',this.counter)
+                }
+            }
+
+        });
+        var app = new Vue({
+            el: '#app',
+            data: {
+                total:0
+            }
+        });
+    </script>
+</body>
+</html>

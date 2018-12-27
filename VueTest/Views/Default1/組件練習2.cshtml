@@ -1,0 +1,201 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>組件練習2</title>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <style>
+        [v-cloak] {
+        display:none;
+        }
+        .tabs {
+        font-size:14px;
+        color:#657180
+        }
+        .tabs-bar:after {
+        content:'';
+        display:block;
+        width:100%;
+        height:1px;
+        background:#d7dde4;
+        margin-top:-1px;
+        }
+        .tabs-tab {
+        display:inline-block;
+        padding:4px 16px;
+        margin-right:6px;
+        background:#fff;
+        border:1px solid #d7dde4;
+        cursor:pointer;
+        position:relative;
+        
+        }
+        .tabs.tab.active {
+        color:#3399ff;
+        border-top:1px solid #3399ff;
+        border-bottom:1px solid #fff;
+        
+        }
+        .tabs.tab.active:before {
+        content:'';
+        display:block;
+        
+        height:1px;
+        background:#3399ff;
+        position:absolute;
+        top:0;
+        left:0;
+        right:0
+        
+        }
+        .tabs.content{
+            padding:8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" v-cloak> 
+        <tabs v-model="activeKey">
+            <pane label="tab1" name="1">
+                標籤一
+            </pane>
+            <pane label="tab2" name="2">
+                標籤二
+            </pane>
+            <pane label="tab3" name="3">
+                標籤三
+            </pane>
+        </tabs>
+    </div>
+    <script type="text/x-template" id="tab">
+        <div class="tabs">
+            <div class="tabs-bar">
+                @*標籤頁標題*@
+                <div :class="tabCls(item)" v-for="(item,index) in navList" @@click="handleChange(index)">
+                    {{item.label}}
+                </div>
+            </div>
+            <div class="tabs-content">
+                <slot>
+                    @*pane嵌套在這裡*@
+                </slot>
+            </div>
+        </div>
+    </script>
+    <script>
+        Vue.component('tabs', {
+            template: '#tab',
+            data: function () {
+                return {
+                    navList: [],
+                    currentValue:this.value
+                }
+            },
+            props: {
+                value: {
+                    type:[String,Number]
+                }
+            },
+            methods: {
+                tabCls(item){
+                    return [
+                        'tabs-tab', { 'tabs-tab-active': item.name === this.currentValue }
+                    ]
+                },
+                handleChange:function(index){
+                    var nav = this.navList[index];
+                    var name = nav.name;
+                    this.currentValue = name;
+                    this.$emit('input', name);
+                    this.$emit('on-click', name);
+                },
+
+                getTabs () {//遍歷子組件 得到所有pane
+                    return this.$children.filter(function (item) {
+                        return item.$options.name === 'pane';
+                    });
+                },
+                updateNav() {
+                    this.navList = [];
+                    var self = this;
+                    this.getTabs().forEach(function (pane, index) {
+                        self.navList.push({
+                            label: pane.label,
+                            name:pane.name || index
+                        });
+                        if (!pane.name) pane.name = index;
+                        if (index === 0) {
+                            if (!self.currentValue) {
+                                self.currentValue = pane.name || index;
+                            }
+                        }
+                    });
+                    this.updateStatus();
+                },
+                updateStatus() {
+                    var tabs = this.getTabs();
+                    var self = this;
+                    tabs.forEach(function (tab) {
+                        return tab.show = tab.name === self.currentValue;//沒有選到的隱藏
+                    });
+                }
+            },
+            watch: {
+                value: function (val) {
+                    this.currentValue = val;
+                },
+                currentValue: function () {
+                    this.updateStatus();//tabs發生變化的時候 更新顯示狀態
+                }
+            }
+            
+        });
+        Vue.component('pane', {
+            name: 'pane',
+            template: '<div class="pane" v-show="show"><slot></slot></div>',
+            data: function () {
+                return {
+                    show:true //這個控制在tabs組件
+                }
+            },
+            props: {
+                name: {
+                    type:String
+                },
+                label:{
+                    type:String,
+                    default:''
+                }
+
+            },
+            methods: {
+                updateNav: function () {
+                    this.$parent.updateNav(); //調用tabs的方法
+                }
+            },
+            watch: {
+                label() {
+                    this.updateNav(); //更新的時候監聽 都要通知父組件
+                }
+
+            },
+            mounted() {
+                this.updateNav(); //初始化
+            }
+        })
+        var app = new Vue({
+            el: '#app',
+            data: {
+                activeKey:'1'
+            }
+        });
+    </script>
+</body>
+</html>

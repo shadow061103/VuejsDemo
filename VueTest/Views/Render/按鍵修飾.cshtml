@@ -1,0 +1,85 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>按鍵修飾</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app"> 
+        <comp></comp><br/>
+        <comp2></comp2><br />
+        <comp2>
+            <p>slot的內容</p>
+        </comp2>
+    </div>
+    <script>
+        Vue.component('comp', {
+            render: function (createElement)
+            {
+                var self = this;
+                if (this.list.length) {
+                    var listNode = createElement('ul', this.list.map(function (item) {
+                        return createElement('li', item);
+                    }));
+                }
+                else {
+                    var listNode = createElement('li', '暫無聊天內容');
+                }
+                return createElement('div', [
+                    listNode,
+                    createElement('input', {
+                        attrs: {
+                            placeholder:'輸入內容，按回傳鍵發送'
+                        },
+                        style: {
+                            width:'200px'
+                        },
+                        on: {
+                            keyup: function (event)
+                            {
+                                //keyCode 記得不要寫錯
+                                if (event.keyCode !== 13)
+                                {
+                                    return;
+                                }
+                                self.list.push(event.target.value);
+                                event.target.value = ''; //清空輸入框
+                            }
+                        }
+                    })
+                ]);
+            },
+            data:function(){
+                return {
+                    value: '',
+                    list:[]
+                }
+            }
+
+        });
+        Vue.component('comp2', {
+            render: function (createElement) {
+                if (this.$slots.default === undefined) {//組件裡沒slot就是undefined
+                    return createElement('div', '沒有使用slot時顯示的');
+
+                }
+                else
+                    return createElement('div', this.$slots.default);
+            }
+        })
+
+
+        var app = new Vue({
+            el:'#app'
+        });
+    </script>
+</body>
+</html>

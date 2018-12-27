@@ -1,0 +1,62 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Slot</title>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+         <comp>
+             <span>分發內容</span>@*可以註解掉試試*@
+         </comp>
+        <br />
+        <comp2>
+            <h2 slot="header">標題</h2>
+            <p>內文</p><br/>
+            <p>內文</p>
+            <span slot="footer">底部footer</span>
+        </comp2>
+    </div>
+    
+    <script>
+        Vue.component('comp', {
+            template:'<div><slot><p>如果父組件沒插入內容就會出現</p></slot></div>'
+
+        });
+        Vue.component('comp2', {
+
+            template:'<div class="container">\
+        <div class="header">\
+            <slot name="header"></slot>\
+        </div>\
+        <div class="main">\
+            <slot></slot>\
+        </div>\
+        <div class="footer">\
+            <slot name="footer"></slot>\
+        </div>\
+    </div>',
+            mounted: function () {
+                var header = this.$slots.header;
+                var main = this.$slots.default;
+                var footer = this.$slots.footer;
+                
+                console.log('footer' + footer);
+                console.log('footer' + footer[0].elm.innerHTML);//訪問slot
+            }
+        });
+        var app = new Vue({
+            el: '#app'
+
+        });
+    </script>
+</body>
+</html>
