@@ -114,7 +114,7 @@
         
         <div class="message">
             <v-input v-model="username"></v-input>
-            <v-textarea v-model="message" prefix="message"></v-textarea>
+            <v-textarea v-model="message" ref="message"></v-textarea>
             <button @@click="handleSend">發送</button>
 
 
@@ -153,9 +153,9 @@
         });
         Vue.component('vTextarea', {
             props: {
-                values: {
+                value: {
                     type: String,
-                    defaulr:''
+                    default:''
                 }
             },
             render: function (createElement) {
@@ -282,10 +282,13 @@
                         message:this.message
                     });
                     this.message = '';
+                    this.name = '';
                 },
                 handleReply: function (index) {
                     var name = this.list[index].name;
+
                     this.message = '回覆@@' + name + ':';
+                    console.log('reply' + this.message);
                     this.$refs.message.focus();
                 }
             }
