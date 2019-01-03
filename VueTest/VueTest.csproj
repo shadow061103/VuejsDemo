@@ -139,6 +139,7 @@
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\PraController.cs" />
     <Compile Include="Controllers\RenderController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -224,6 +225,7 @@
     <Content Include="Views\Render\按鍵修飾.cshtml" />
     <Content Include="Views\Render\重複組件.cshtml" />
     <Content Include="Views\Render\重複組件2.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
